@@ -1,0 +1,20 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h2>Categories</h2>
+<div class="d-flex flex-cloumn">
+    {% for key, value in categories  %}
+    <div class="card">
+        <ul>
+            <label>Category
+                <li>
+                    <a href="{% url "category_page" key %}">
+                        {{value}}
+                    </a>
+                </li>
+            </label>
+        </ul>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
