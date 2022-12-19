@@ -1,9 +1,29 @@
 # CS50W-2022-Project2-Commerce
-Try to do CS50W project 2 Commerce, try to make it easy to reuse and maintain(based on model, model from, etc.)
+## Build a ebay-like website with Django and bootstrap
+
+
+🎥[Demo Video](https://youtu.be/ajK_um270kk)🎥
+
+## Get started
+
+1.Clone this repo
+`
+git@github.com:ChuLiYu/CS50-Web-project2-Commerce.git
+cd commerce 
+`
+
+2.Install dependencies:
+`
+pip install -r requirements.txt
+`
+
+3. Run the development server:
+python manage.py runserver
+
+4.Go to you local host and port(noramlly at 8000) to see the page.
 
 
 ## Function Intro
-
 
 #### New Listing
 Create your Listing for sale with Title, Start bid price, Category, Description, if you are logged in. 
