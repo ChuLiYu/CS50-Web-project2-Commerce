@@ -28,7 +28,7 @@ class Listing(models.Model):
     title = models.TextField(max_length=64)
     description = models.TextField(max_length=200)
     start_bid = models.FloatField()
-    img = models.ImageField(blank=True, null=True, upload_to="images")
+    img = models.ImageField(blank=True, null=True, upload_to="image")
     img_link = models.URLField(blank=True, null=True)
     category = models.TextField(max_length=64, choices=CATEGORY_CHOICES)
     creator_id = models.ForeignKey(

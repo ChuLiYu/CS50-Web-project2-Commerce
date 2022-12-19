@@ -3,10 +3,19 @@
 {% block body %}
 
 <h2>Create listing</h2>
-    <form method="post">
-      {% csrf_token %}
-      {{form.as_p}}
-          <input type="submit" value="Create">
-        </div>
-    </form>
+<form method="post" action={% url "create_listing"%} enctype="multipart/form-data">
+
+  {% csrf_token %}
+  <div class="fieldWrapper py-4">
+    {% for field in form %}
+    {{field.errors}}
+    {{field.label_tag}}
+    <br />
+    {{field}}
+    <br />
+  </div>
+  {% endfor %}
+  <input type="submit" value="Create">
+  </div>
+</form>
 {% endblock %}

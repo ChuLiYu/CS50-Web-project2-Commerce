@@ -1,88 +1,107 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+<div class="p-5">
 
-<h2>{{listing.title}}</h2>
-{% if user.is_authenticated %}
-{% if not is_active and is_now_user_the_winner%}
-<p class="h3">
-  <strong class> You Won This Listing</strong>
-</p>
-{% endif %}
-<form action="{% url 'modify_watchlist' listing.id %}" method="post">
-  {% csrf_token %}
-  {{watchlist_form}}
-  {% if not is_in_watchlist %}
-  <input type="submit" value="Add to Watchlist" name="add_to_watchlist">
-  {% else %}
-  <input type="submit" value="Remove from Watchlist" name="remove_from_watchlist">
+  <div class="h1 text-primary">{{listing.title}}</div>
+  {% if user.is_authenticated %}
+  {% if not is_active and is_now_user_the_winner%}
+  <p class="h2 py-3">
+    <strong class="text-success"> Congralations! You Won This Listing!!</strong>
+  </p>
+  {% endif %}
+  <form action="{% url 'modify_watchlist' listing.id %}" method="post">
+    {% csrf_token %}
+    {{watchlist_form}}
+    {% if not is_in_watchlist %}
+    <input type="submit" value="Add to Watchlist" name="add_to_watchlist">
+    {% else %}
+    <input type="submit" value="Remove from Watchlist" name="remove_from_watchlist">
+
+    {% endif %}
+  </form>
+  <br />
+  {% if is_active and not is_now_user_the_creator%}
+  <form action={% url 'submit_bid' listing.id %} method="post">
+    {% csrf_token %}
+    {{bidding_form}}
+    <input type="submit">
+  </form>
+
+  <!-- Error Message Handler -->
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }} alert alert-warning" role="alert" {% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
 
   {% endif %}
-</form>
-{% if is_active and not is_now_user_the_creator%}
-<form action={% url 'submit_bid' listing.id %} method="post">
-  {% csrf_token %}
-  {{bidding_form}}
-  <input type="submit">
-</form>
-{% comment %} Error Message Handler {% endcomment %}
-{% if messages %}
-<ul class="messages">
-  {% for message in messages %}
-  <li{% if message.tags %} class="{{ message.tags }} alert alert-warning" role="alert" {% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-
-{% endif %}
-{% if is_now_user_the_creator %}
-<form action={% url 'modify_listing_active' listing.id%} method="post">
-  {% csrf_token %}
-  {{listing_active_modify_form}}
-  {% if is_active%}
-  <input type="submit" value="Save" name="inactive_listing">
-  {% else %}
-  <input type="submit" value="Save" name="active_listing">
+  {% if is_now_user_the_creator %}
+  <form action={% url 'modify_listing_active' listing.id%} method="post">
+    {% csrf_token %}
+    {{listing_active_modify_form}}
+    {% if is_active%}
+    <input type="submit" value="Save" name="inactive_listing">
+    {% else %}
+    <input type="submit" value="Save" name="active_listing">
+    {% endif %}
+  </form>
   {% endif %}
-</form>
-{% endif %}
 
-{% endif %}
-<label>Description:
-  <div>{{listing.description}}</div>
-</label>
-<label>Start Bid:
-  <div>{{listing.start_bid}}</div>
-</label>
-<label>Current Biding:
-  {% if now_price %}
-  <div>{{now_price}}</div>
-  {% else %}
-  <div>No bid now</div>
   {% endif %}
-</label>
-<label>Created Time
-  <div>{{listing.created_time}}</div>
-</label>
-<label>Category:
-  <div>{{listing.category}}</div>
-</label>
-<label>Image Link:
-  <img src="{{listing.img_link}}">
-</label>
-<label>Image File:
-  <img src="{{listing.img}}">
-</label>
-{% for comment in comments  %}
-<div class="card">
-  <p><label for="title">{{comment.creator_id}}</label></p>
-  <p><label for="">{{comment.comment_str}}</label></p>
-</div>
-{% endfor %}
-<form action={% url "add_comment" listing.id %} method="post">
-  {% csrf_token %}
-  {{comment_form}}
+  <br />
+  <div class="row">
+    <label class="col">
+      <h4>Description</h4>
+      <div>{{listing.description}}</div>
+    </label>
+    <label class="col">
+      <h4>Start bid at</h4>
+      <div>{{listing.start_bid}}</div>
+    </label>
+    <label class="col">
+      <h4>Current bidding</h4>
+      {% if now_price %}
+      <div>{{now_price}}</div>
+      {% else %}
+      <div>No bid now</div>
+      {% endif %}
+    </label>
+    </br>
+    <label class="col">
+      <h4>Created Time</h4>
+      <div>{{listing.created_time}}</div>
+    </label>
+    <label class="col">
+      <h4>Category</h4>
+      <div>{{listing.get_category_display}}</div>
+    </label>
 
-  <input type="submit" name="comment">
-</form>
-{% endblock %}
+  </div>
+  <div class="row my-5">
+    <h3> Comments</h3>
+    {% for comment in comments  %}
+    <div class="card">
+      <div class="card-body">
+
+
+        <div class="row text-dark h4">
+          {{comment.creator_id}}:
+
+        </div>
+        <div class="row text-secondary">
+          {{comment.comment_str}}
+        </div>
+      </div>
+    </div> {% endfor %}
+    {% if user.is_authenticated %} <form action={% url "add_comment" listing.id %} method="post">
+      {% csrf_token %}
+      {{comment_form.as_table}}
+
+      <input type="submit" name="comment">
+    </form>
+    {% endif %}
+  </div>
+  {% endblock %}

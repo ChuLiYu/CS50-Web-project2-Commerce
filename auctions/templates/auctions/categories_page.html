@@ -2,18 +2,22 @@
 
 {% block body %}
 <h2>Categories</h2>
-<div class="d-flex flex-cloumn">
+<div class="row p-4 ">
     {% for key, value in categories  %}
-    <div class="card">
-        <ul>
-            <label>Category
-                <li>
-                    <a href="{% url "category_page" key %}">
-                        {{value}}
-                    </a>
-                </li>
-            </label>
-        </ul>
+    <div class="col-4 my-2">
+        <div class="card text-center h5">
+
+            <a href="{% url "category_page" key %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-tag-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                </svg>
+                {{value}}
+            </a>
+
+
+        </div>
     </div>
     {% endfor %}
 </div>

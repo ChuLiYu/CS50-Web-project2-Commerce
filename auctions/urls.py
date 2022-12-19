@@ -22,7 +22,9 @@ urlpatterns = [
     path("create_listing", views.create_listing_view, name="create_listing"),
     path("categories_page", views.categories_page_view, name="categories_page"),
     path(
-        "category_page/<str:category_key>", views.category_page_view, name="category_page"
+        "category_page/<str:category_key>",
+        views.category_page_view,
+        name="category_page",
     ),
     path(
         "listing_page/<int:listing_id>/modify_listing_active",
@@ -34,4 +36,5 @@ urlpatterns = [
         views.add_comment_view,
         name="add_comment",
     ),
+    path("all_listings", views.all_listings_view, name="all_listings_path"),
 ]

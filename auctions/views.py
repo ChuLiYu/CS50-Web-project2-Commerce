@@ -88,7 +88,7 @@ def create_listing_view(request):
 
     if request.method == "POST":
         # reslove post request to model post for valid
-        form = ListingModelForm(request.POST)
+        form = ListingModelForm(request.POST, request.FILES)
         if form.is_valid():
             # create new listing in db
             contact = form.save(commit=False)
@@ -247,8 +247,7 @@ def submit_bid_view(request, listing_id):
             if new_price > now_price:
                 container.biddin_price = new_price
                 form.save()
-                list(messages.get_messages(request))                 #to clean messages
-
+                list(messages.get_messages(request))  # to clean messages
 
             else:
                 messages.error(request, "Price need to higher than existing bid")
@@ -256,9 +255,8 @@ def submit_bid_view(request, listing_id):
         else:
             if new_price > start_bid:
                 container.bid_price = new_price
-                form.save()               
-                list(messages.get_messages(request))                 #to clean messages
-
+                form.save()
+                list(messages.get_messages(request))  # to clean messages
 
             else:
                 messages.error(request, "Price need to higher than start bid")
@@ -308,3 +306,9 @@ def add_comment_view(request, listing_id):
             container.save()
             return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)))
     return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)))
+
+
+def all_listings_view(request):
+    listings_is_active = Listing.objects.all
+    context = {"listings": listings_is_active, "page_title": "Active Listings"}
+    return render(request, "auctions/listings.html", context)

@@ -6,7 +6,7 @@ class ListingModelForm(forms.ModelForm):
     class Meta:
         model = Listing
 
-        exclude = ["bidding_id", "creator_id", "watchlist_id"]
+        exclude = ["bidding_id", "creator_id", "watchlist_id", "img_link"]
 
 
 class Listing_ActiveModifyModelForm(forms.ModelForm):
