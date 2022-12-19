@@ -2,17 +2,22 @@
 ## Build a ebay-like website with Django and bootstrap
 
 
-🎥[Demo Video](https://youtu.be/ajK_um270kk)🎥
+🎥[Demo Video](https://youtu.be/CZYVevJVjzE)🎥
 
 ## Get started
 
 1.Clone this repo
+
 `
 git@github.com:ChuLiYu/CS50-Web-project2-Commerce.git
+`
+
+`
 cd commerce 
 `
 
 2.Install dependencies:
+
 `
 pip install -r requirements.txt
 `
